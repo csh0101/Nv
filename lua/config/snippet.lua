@@ -1,0 +1,97 @@
+-- local ls = require("luasnip")
+-- local s = ls.snippet
+-- local sn = ls.snippet_node
+-- local isn = ls.indent_snippet_node
+-- local t = ls.text_node
+-- local i = ls.insert_node
+-- local f = ls.function_node
+-- local c = ls.choice_node
+-- local d = ls.dynamic_node
+-- local r = ls.restore_node
+-- local events = require("luasnip.util.events")
+-- local ai = require("luasnip.nodes.absolute_indexer")
+-- local extras = require("luasnip.extras")
+-- local fmt = extras.fmt
+-- local m = extras.m
+-- local l = extras.l
+-- local postfix = require("luasnip.extras.postfix").postfix
+--
+-- ls.add_snippets("all", {
+--   s("trigger", {
+--     t({ "After expanding, the cursor is here ->" }),
+--     i(1),
+--     t({ "", "After jumping forward once, cursor is here ->" }),
+--     i(2),
+--     t({ "", "After jumping once more, the snippet is exited there ->" }),
+--     i(0),
+--   }),
+-- })
+-- ls.add_snippets("all", {
+--   s("ououou", {
+--     -- equivalent to "${1:cond} ? ${2:then} : ${3:else}"
+--     i(1, "cond"),
+--     t(" ? "),
+--     i(2, "then"),
+--     t(" : "),
+--     i(3, "else"),
+--   }),
+-- })
+-- ls.add_snippets("all", {
+--   s("trig3", {
+--     i(2, { "first_line_of_second ", "second_line_of_second " }),
+--     i(1, { "text_of_first ", "second_line_of_first " }),
+--     i(3, { "x" }),
+--     -- f(function(args, snip)
+--     --   --here
+--     --   return " end"
+--     -- end, { 2, 1 }),
+--   }),
+--   s("trig", {
+--     i(1),
+--     f(function(args, snip, user_arg_1)
+--       return user_arg_1 .. args[1][1]
+--     end, { 1 }, { user_args = { "Will be appended to text from i(0)" } }),
+--     i(0),
+--   }),
+--
+--   s("trig2", {
+--     f(reused_func, {}, { user_args = { "text " } }),
+--     f(reused_func, {}, { user_args = { "different text" } }),
+--   }),
+--   s("trig4", {
+--     i(1, "text_of_first "),
+--     i(2, { "first_line_of_second", "second_line_of_second", "" }),
+--     f(
+--       -- order is 2,1, not 1,2!!
+--       function(args, snip)
+--         return args[1][1] .. " " .. args[1][2] .. args[2][1] .. " end"
+--       end,
+--       { 2, 1 }
+--     ),
+--   }),
+--   s("trig5", {
+--     i(1, " text_of_first "),
+--     i(2, { " first_line_of_second ", " second_line_of_second " }),
+--     f(function(args, snip)
+--       return args[1][1] .. args[1][2] .. args[2][1]
+--     end, { ai[2], ai[1] }),
+--   }),
+--   postfix(".br", {
+--     f(function(_, parent)
+--       return "[" .. parent.snippet.env.POSTFIX_MATCH .. "]"
+--     end, {}),
+--   }),
+--   s(
+--     "trig6",
+--     c(1, {
+--       t("Ugh boring, a text node"),
+--       i(nil, "At least I can edit something now..."),
+--       f(function(args)
+--         return "Still only counts as text!!"
+--       end, {}),
+--     })
+--   ),
+-- })
+-- local function reused_func(_, _, user_arg1)
+--   return user_arg1
+-- end

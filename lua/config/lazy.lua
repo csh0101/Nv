@@ -34,8 +34,8 @@ return function(opts)
           end,
           icons = {
             kinds = {
-              Codeium = " "
-            }
+              Codeium = " ",
+            },
           },
         },
       },
@@ -73,6 +73,7 @@ return function(opts)
       { import = "plugins.extras.coding.codeium", enabled = opts.nv.codeium_support },
       -- custom language specific extension modules
       { import = "plugins.extras.lang.nodejs", enabled = opts.nv.lang.nodejs },
+      { import = "plugins.extras.lang.flutter", enabled = opts.nv.lang.flutter },
       -- lazyvim coverage extension modules
       { import = "plugins.extras.test.coverage", enabled = opts.nv.lang.coverage_support },
       -- lazyvim REST extension modules

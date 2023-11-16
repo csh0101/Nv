@@ -18,5 +18,4 @@ return {
       opts.sorting = opts.sorting or require("cmp.config.default")().sorting
     end,
   },
-
 }

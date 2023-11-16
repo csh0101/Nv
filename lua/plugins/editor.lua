@@ -63,10 +63,10 @@ return {
         layout_config = {
           vertical = {
             preview_cutoff = 0.2,
-            preview_height = 0.4
+            preview_height = 0.4,
           },
           height = 0.9,
-          width = 0.9
+          width = 0.9,
         },
         mappings = {
           i = {
@@ -78,7 +78,7 @@ return {
             end,
             ["<C-p>"] = function(...)
               return require("telescope.actions.layout").toggle_preview(...)
-            end
+            end,
           },
           n = {
             ["j"] = function(...)
@@ -95,8 +95,8 @@ return {
             end,
             ["<C-p>"] = function(...)
               return require("telescope.actions.layout").toggle_preview(...)
-            end
-          }
+            end,
+          },
         },
       },
       extensions = {
@@ -166,10 +166,10 @@ return {
           Struct = { icon = icons.kinds.Struct, hl = "TSType" },
           Event = { icon = icons.kinds.Event, hl = "TSType" },
           Operator = { icon = icons.kinds.Operator, hl = "TSOperator" },
-          TypeParameter = { icon = icons.kinds.TypeParameter, hl = "TSParameter" }
-        }
+          TypeParameter = { icon = icons.kinds.TypeParameter, hl = "TSParameter" },
+        },
       })
-    end
+    end,
   },
 
   -- add zen-mode
@@ -179,5 +179,29 @@ return {
     opts = {},
     keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode" } },
   },
-
+  -- add highlig-undo.nvim by csh0101
+  {
+    "tzachar/highlight-undo.nvim",
+    opts = {},
+    config = function(_, opts)
+      require("highlight-undo").setup({
+        duration = 300,
+        undo = {
+          hlgroup = "HighlightUndo",
+          mode = "n",
+          lhs = "u",
+          map = "undo",
+          opts = {},
+        },
+        redo = {
+          hlgroup = "HighlightUndo",
+          mode = "n",
+          lhs = "<C-r>",
+          map = "redo",
+          opts = {},
+        },
+        highlight_for_count = true,
+      })
+    end,
+  },
 }

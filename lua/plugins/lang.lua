@@ -5,10 +5,21 @@ return {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts
     opts = {
-      inlay_hints = { enabled = vim.fn.has('nvim-0.10') },
+      inlay_hints = { enabled = vim.fn.has("nvim-0.10") },
       ---@type lspconfig.options
       servers = {
         -- sourcekit will be automatically installed with mason and loaded with lspconfig
+        dartls = {
+          init_options = {
+            {
+              closingLabels = true,
+              flutterOutline = true,
+              onlyAnalyzeProjectsWithOpenFiles = true,
+              outline = true,
+              suggestFromUnimportedLibraries = true,
+            },
+          },
+        },
         sourcekit = {},
       },
     },
@@ -38,31 +49,47 @@ return {
     opts = {
       defaults = {
         ["<leader>dw"] = { name = "+widgets" },
-      }
-    }
+      },
+    },
   },
 
   -- dap integration
   {
     "mfussenegger/nvim-dap",
     keys = {
-      { "<leader>de",
-        function() require("dap.ui.widgets").centered_float(require("dap.ui.widgets").expression, { border = "none" }) end,
+      {
+        "<leader>de",
+        function()
+          require("dap.ui.widgets").centered_float(require("dap.ui.widgets").expression, { border = "none" })
+        end,
         desc = "Eval",
-        mode = { "n", "v" } },
-      { "<leader>dwf",
-        function() require("dap.ui.widgets").centered_float(require("dap.ui.widgets").frames, { border = "none" }) end,
-        desc = "Frames" },
-      { "<leader>dws",
-        function() require("dap.ui.widgets").centered_float(require("dap.ui.widgets").scopes, { border = "none" }) end,
-        desc = "Scopes" },
-      { "<leader>dwt",
-        function() require("dap.ui.widgets").centered_float(require("dap.ui.widgets").threads, { border = "none" }) end,
-        desc = "Threads" },
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>dwf",
+        function()
+          require("dap.ui.widgets").centered_float(require("dap.ui.widgets").frames, { border = "none" })
+        end,
+        desc = "Frames",
+      },
+      {
+        "<leader>dws",
+        function()
+          require("dap.ui.widgets").centered_float(require("dap.ui.widgets").scopes, { border = "none" })
+        end,
+        desc = "Scopes",
+      },
+      {
+        "<leader>dwt",
+        function()
+          require("dap.ui.widgets").centered_float(require("dap.ui.widgets").threads, { border = "none" })
+        end,
+        desc = "Threads",
+      },
     },
     opts = function(_, opts)
       require("dap").defaults.fallback.terminal_win_cmd = "enew | set filetype=dap-terminal"
-    end
+    end,
   },
 
   -- overwrite Rust tools inlay hints
@@ -74,9 +101,9 @@ return {
         inlay_hints = {
           -- nvim >= 0.10 has native inlay hint support,
           -- so we don't need the rust-tools specific implementation any longer
-          auto = not vim.fn.has('nvim-0.10')
-        }
-      }
+          auto = not vim.fn.has("nvim-0.10"),
+        },
+      },
     },
   },
 
@@ -92,7 +119,7 @@ return {
           },
           codeGeneration = {
             toString = {
-              template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
+              template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
             },
             useBlocks = true,
           },
@@ -107,14 +134,14 @@ return {
               "org.junit.jupiter.api.DynamicTest.*",
               "org.mockito.Mockito.*",
               "org.mockito.ArgumentMatchers.*",
-              "org.mockito.Answers.*"
+              "org.mockito.Answers.*",
             },
             importOrder = {
               "#",
               "java",
               "javax",
               "org",
-              "com"
+              "com",
             },
           },
           contentProvider = { preferred = "fernflower" },
@@ -123,13 +150,13 @@ return {
           },
           flags = {
             allow_incremental_sync = true,
-            server_side_fuzzy_completion = true
+            server_side_fuzzy_completion = true,
           },
           implementationsCodeLens = {
             enabled = false, --Don"t automatically show implementations
           },
           inlayHints = {
-            parameterNames = { enabled = "all" }
+            parameterNames = { enabled = "all" },
           },
           maven = {
             downloadSources = true,
@@ -153,7 +180,6 @@ return {
         },
       },
     },
-    config = function() end
+    config = function() end,
   },
-
 }
