@@ -5,8 +5,8 @@ if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable",
     lazypath })
 end
-vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
+vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 ---@param opts LazyConfig
 return function(opts)
   opts = vim.tbl_deep_extend("force", {
@@ -39,6 +39,8 @@ return function(opts)
           },
         },
       },
+      -- lazyvim alpha extension modules
+      { import = "lazyvim.plugins.extras.ui.alpha", enabled = opts.nv.alpha },
       -- lazyvim copilot extension modules
       { import = "lazyvim.plugins.extras.coding.copilot", enabled = opts.nv.copilot_support },
       -- lazyvim yanky extension modules
@@ -73,6 +75,8 @@ return function(opts)
       { import = "plugins.extras.coding.codeium", enabled = opts.nv.codeium_support },
       -- custom language specific extension modules
       { import = "plugins.extras.lang.nodejs", enabled = opts.nv.lang.nodejs },
+      { import = "plugins.extras.lang.php", enabled = opts.nv.lang.php },
+      { import = "lazyvim.plugins.extras.lang.typescript", enabled = opts.nv.lang.typescript },
       { import = "plugins.extras.lang.flutter", enabled = opts.nv.lang.flutter },
       -- lazyvim coverage extension modules
       { import = "plugins.extras.test.coverage", enabled = opts.nv.lang.coverage_support },

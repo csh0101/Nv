@@ -32,8 +32,23 @@ return {
   -- treesitter
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      { "windwp/nvim-ts-autotag" },
+    },
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        autotag = {
+          enable = true,
+        },
+      })
+    end,
     opts = function(_, opts)
+      opts.highlight = { enable = true }
+      opts.autopairs = { enable = true }
+      opts.autotag = { enable = true }
+      opts.indent = { enable = true }
       if type(opts.ensure_installed) == "table" then
+        print("this need to be fixed")
         vim.list_extend(opts.ensure_installed, {
           "comment",
           "diff",
@@ -51,6 +66,9 @@ return {
           "mermaid",
           "sql",
           "dart",
+          "vue",
+          "php",
+          "phpdoc",
         })
       end
     end,
