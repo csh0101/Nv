@@ -40,6 +40,11 @@ return {
         autotag = {
           enable = true,
         },
+        other = {
+          highlight = { enable = true },
+          indent = { enable = true },
+          autopairs = { enable = true },
+        },
       })
     end,
     opts = function(_, opts)
@@ -68,7 +73,7 @@ return {
           "dart",
           "vue",
           "php",
-          "phpdoc",
+          "phpdocs",
         })
       end
     end,

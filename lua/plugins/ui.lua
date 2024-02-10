@@ -16,7 +16,7 @@ return {
       stages = "fade_in_slide_out",
       timeout = 3000,
       render = "compact",
-    }
+    },
   },
 
   -- bufferline
@@ -38,7 +38,7 @@ return {
         diagnostics = false,
         highlights = {
           buffer_selected = {
-            gui = "none"
+            gui = "none",
           },
         },
         offsets = {
@@ -52,11 +52,11 @@ return {
             filetype = "Outline",
             text = "Symbols Outline",
             highlight = "TSType",
-            text_align = "left"
-          }
-        }
-      }
-    }
+            text_align = "left",
+          },
+        },
+      },
+    },
   },
 
   -- statusline
@@ -95,7 +95,7 @@ return {
           { "location", padding = { left = 0, right = 1 } },
         },
       })
-    end
+    end,
   },
 
   -- dashboard
@@ -129,7 +129,7 @@ return {
       button.opts.hl = "AlphaButtons"
       button.opts.hl_shortcut = "AlphaShortcut"
       table.insert(dashboard.section.buttons.val, 9, button)
-    end
+    end,
   },
 
   -- scrollbar for Neovim
@@ -140,7 +140,7 @@ return {
       excluded_filetypes = { "alpha", "neo-tree" },
       current_only = true,
       winblend = 75,
-    }
+    },
   },
 
   -- git diff view
@@ -148,5 +148,4 @@ return {
     "sindrets/diffview.nvim",
     cmd = "DiffviewOpen",
   },
-
 }
