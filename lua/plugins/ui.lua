@@ -1,13 +1,23 @@
 return {
-
   -- disable catppuccin
   { "catppuccin/nvim", name = "catppuccin", enabled = false },
 
-  -- load github nvim theme
-  { "projekt0n/github-nvim-theme" },
-
-  -- load onedarkpro nvim theme
-  { "olimorris/onedarkpro.nvim" },
+  -- configure tokyonight theme
+  {
+    "folke/tokyonight.nvim",
+    optional = true,
+    dependencies = {
+      -- toggle theme
+      {
+        "eliseshaffer/darklight.nvim",
+        opts = {
+          mode = "colorscheme",
+          dark_mode_colorscheme = "tokyonight-storm",
+          light_mode_colorscheme = "tokyonight-day"
+        },
+      }
+    }
+  },
 
   -- notify customization
   {
@@ -25,8 +35,6 @@ return {
     opts = {
       options = {
         numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
-        close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
-        right_mouse_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
         max_name_length = 30,
         max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
         show_buffer_icons = true,
@@ -59,50 +67,60 @@ return {
     }
   },
 
-  -- statusline
+  -- scrollbar for Neovim
   {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
-    opts = function(_, opts)
-      local function lsp_name(msg)
-        msg = msg or "Inactive"
-        local buf_clients = vim.lsp.get_active_clients()
-        if next(buf_clients) == nil then
-          if type(msg) == "boolean" or #msg == 0 then
-            return "Inactive"
-          end
-          return msg
-        end
-        local buf_client_names = {}
+    "dstein64/nvim-scrollview",
+    event = "BufReadPre",
+    opts = {
+      excluded_filetypes = { "alpha", "dashboard", "neo-tree" },
+      current_only = true,
+      winblend = 75,
+    }
+  },
 
-        for _, client in pairs(buf_clients) do
-          if client.name ~= "null-ls" then
-            table.insert(buf_client_names, client.name)
-          end
-        end
-
-        return table.concat(buf_client_names, ", ")
+  -- theme toggle
+  {
+    "eliseshaffer/darklight.nvim",
+    event = "VimEnter",
+    config = function(_, opts)
+      require("darklight").setup(opts)
+      local colorscheme = opts.dark_mode_colorscheme
+      if vim.g.NV_UI_MODE ~= "light" then
+        colorscheme = opts.light_mode_colorscheme
       end
-
-      opts.sections = vim.tbl_deep_extend("force", opts.sections, {
-        lualine_y = {
-          {
-            lsp_name,
-            icon = "",
-            color = { gui = "none" },
-          },
-          { "progress", separator = " ", padding = { left = 1, right = 0 } },
-          { "location", padding = { left = 0, right = 1 } },
-        },
-      })
-    end
+      vim.cmd("colorscheme " .. colorscheme)
+    end,
+    keys = {
+      { "<leader>ub",
+        function()
+          if vim.o.background ~= "light" then
+            vim.g.NV_UI_MODE = "dark"
+          else
+            vim.g.NV_UI_MODE = "light"
+          end
+          vim.cmd([[DarkLightSwitch]])
+        end,
+        desc = "Toggle Background"
+      },
+    }
   },
 
   -- dashboard
   {
+    "nvimdev/dashboard-nvim",
+    optional = true,
+    opts = function(_, opts)
+      -- show dashboard when new tab page is opened
+      vim.api.nvim_create_autocmd('TabNewEntered', { command = 'Dashboard' })
+    end
+  },
+
+  -- alpha
+  {
     "goolord/alpha-nvim",
-    opts = function(_, dashboard)
-      dashboard.config.opts.setup = function()
+    optional = true,
+    opts = function(_, opts)
+      opts.config.opts.setup = function()
         local alpha_start_group = vim.api.nvim_create_augroup("AlphaStart", { clear = true })
         vim.api.nvim_create_autocmd("TabNewEntered", {
           callback = function()
@@ -125,28 +143,21 @@ return {
           end,
         })
       end
-      local button = dashboard.button("m", " " .. " Mason", ":Mason<CR>")
-      button.opts.hl = "AlphaButtons"
-      button.opts.hl_shortcut = "AlphaShortcut"
-      table.insert(dashboard.section.buttons.val, 9, button)
     end
   },
 
-  -- scrollbar for Neovim
+  -- project
   {
-    "dstein64/nvim-scrollview",
-    event = "BufReadPre",
-    opts = {
-      excluded_filetypes = { "alpha", "neo-tree" },
-      current_only = true,
-      winblend = 75,
-    }
+    "ahmedkhalf/project.nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.manual_mode = false
+      opts.detection_methods = { "lsp", "pattern" }
+      opts.patterns = {
+        ".git",
+        ".hg",
+        ".svn",
+      }
+    end
   },
-
-  -- git diff view
-  {
-    "sindrets/diffview.nvim",
-    cmd = "DiffviewOpen",
-  },
-
 }
